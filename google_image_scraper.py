@@ -38,7 +38,7 @@ scroll_to_bottom(driver)
 
 # get the images
 images = driver.find_elements(By.CLASS_NAME, "rg_i")
-images_urls = {image.get_attribute("src") for image in images}
+images_urls = [image.get_attribute("src") for image in images]
 
 if len(images_urls) < n:
     print(f"Only found {len(images_urls)} images")
@@ -60,9 +60,16 @@ if not os.path.exists(d):
     os.mkdir(d)
 os.chdir(d)
 
+error_count = 0
 for i in range(n):
     image_url = images_urls.pop()
     image_name = keyword + str(i) + ".jpg"
-    urllib.request.urlretrieve(image_url, image_name)
+    try:
+        urllib.request.urlretrieve(image_url, image_name)
+    except:
+        error_count += 1
+
+print(f"{error_count} images could not be downloaded")
+print(f"Downloaded {n - error_count} / {n} images")
 print("Done")
 driver.close()
