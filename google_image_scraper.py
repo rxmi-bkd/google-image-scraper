@@ -14,10 +14,12 @@ from webdriver_manager.chrome import ChromeDriverManager
 ap = argparse.ArgumentParser()
 ap.add_argument("-n", "--number-of-images", required=True, help="number of images to download")
 ap.add_argument("-k", "--keyword", required=True, help="keyword to search")
+ap.add_argument("-d", "--directory", required=True, help="directory to save images")
 args = vars(ap.parse_args())
 
 keyword = args['keyword']
 n = int(args['number_of_images'])
+d = args['directory']
 
 # create a new Chrome session
 driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
@@ -53,7 +55,11 @@ else:
 
 # download the images
 print("Downloading images...")
-os.chdir("images")
+
+if not os.path.exists(d):
+    os.mkdir(d)
+os.chdir(d)
+
 for i in range(n):
     image_url = images_urls.pop()
     image_name = keyword + str(i) + ".jpg"
