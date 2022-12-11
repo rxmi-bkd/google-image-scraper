@@ -1,15 +1,14 @@
 # @author : @rxmi_bkd
 
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from scroll_to_bottom import scroll_to_bottom
-
+import sys
 import os
 import urllib
 import argparse
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.common.by import By
+from scroll_to_bottom import scroll_to_bottom
 
 ap = argparse.ArgumentParser()
 ap.add_argument("-n", "--number-of-images", required=True, help="number of images to download")
@@ -73,3 +72,4 @@ print(f"{error_count} images could not be downloaded")
 print(f"Downloaded {n - error_count} / {n} images")
 print("Done")
 driver.close()
+sys.exit()
